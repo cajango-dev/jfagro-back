@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registrarSaude, consultarHistorico } = require('../controllers/saudeController');
+const { registrarSaude, consultarHistorico, calcularGanhoPesoMedio } = require('../controllers/saudeController');
 
 /**
  * @swagger
@@ -51,6 +51,43 @@ router.post('/saude', registrarSaude);
  *                 $ref: '#/components/schemas/RegistroSaude'
  */
 router.get('/saude/:animalId', consultarHistorico);
+
+/**
+ * @swagger
+ * /saude/{animalId}/ganho-peso:
+ *   get:
+ *     summary: Calcular ganho de peso médio de um animal
+ *     tags: [Saúde]
+ *     parameters:
+ *       - in: path
+ *         name: animalId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do animal
+ *     responses:
+ *       200:
+ *         description: Ganho de peso médio calculado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 animalId:
+ *                   type: string
+ *                 ganhoTotal:
+ *                   type: number
+ *                   description: Ganho de peso total no período (em kg)
+ *                 ganhoPesoMedio:
+ *                   type: number
+ *                   description: Ganho de peso médio por dia (em kg/dia)
+ *                 dias:
+ *                   type: number
+ *                   description: Período total em dias
+ *       400:
+ *         description: Dados insuficientes para calcular o ganho de peso
+ */
+router.get('/saude/:animalId/ganho-peso', calcularGanhoPesoMedio);
 
 /**
  * @swagger
