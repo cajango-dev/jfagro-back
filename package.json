@@ -1,0 +1,25 @@
+{
+  "name": "jfagro-back",
+  "version": "1.0.0",
+  "description": "Um projeto de desenvolvimento para uma interface de gestão para uma empresa agropecuária.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cajango-dev/jfagro-back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cajango-dev/jfagro-back/issues"
+  },
+  "homepage": "https://github.com/cajango-dev/jfagro-back#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
