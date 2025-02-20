@@ -72,11 +72,31 @@ router.get('/saude/:animalId', consultarHistorico);
  *           type: string
  *           format: date
  *           description: Data do registro
+ *         peso:
+ *           type: number
+ *           description: Peso do animal em kg
+ *         frequenciaCardiaca:
+ *           type: number
+ *           description: Frequência cardíaca do animal (batimentos por minuto)
+ *         temperatura:
+ *           type: number
+ *           description: Temperatura corporal do animal em °C
+ *         condicaoCorporal:
+ *           type: integer
+ *           description: Condição corporal (escala de 1 a 5)
+ *         observacoes:
+ *           type: string
+ *           description: Observações adicionais
  *       example:
  *         animalId: '1'
  *         tipo: 'Vacina'
  *         descricao: 'Vacina contra aftosa'
  *         data: '2023-10-01'
+ *         peso: 350
+ *         frequenciaCardiaca: 70
+ *         temperatura: 38.5
+ *         condicaoCorporal: 3
+ *         observacoes: 'Animal saudável e ativo'
  */
 
 module.exports = router;
