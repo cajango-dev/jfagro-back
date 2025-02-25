@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registrarSaude, consultarHistorico, calcularGanhoPesoMedio } = require('../controllers/saudeController');
+const { registrarSaude, consultarHistorico, calcularGanhoPesoMedio, obterDadosPeso } = require('../controllers/saudeController');
 
 /**
  * @swagger
@@ -91,49 +91,36 @@ router.get('/saude/:animalId/ganho-peso', calcularGanhoPesoMedio);
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     RegistroSaude:
- *       type: object
- *       properties:
- *         animalId:
+ * /saude/{animalId}/peso:
+ *   get:
+ *     summary: Obter dados de peso de um animal para gráficos
+ *     tags: [Saúde]
+ *     parameters:
+ *       - in: path
+ *         name: animalId
+ *         schema:
  *           type: string
- *           description: ID do animal
- *         tipo:
- *           type: string
- *           description: Tipo de registro (vacina, tratamento, etc.)
- *         descricao:
- *           type: string
- *           description: Descrição do registro
- *         data:
- *           type: string
- *           format: date
- *           description: Data do registro
- *         peso:
- *           type: number
- *           description: Peso do animal em kg
- *         frequenciaCardiaca:
- *           type: number
- *           description: Frequência cardíaca do animal (batimentos por minuto)
- *         temperatura:
- *           type: number
- *           description: Temperatura corporal do animal em °C
- *         condicaoCorporal:
- *           type: integer
- *           description: Condição corporal (escala de 1 a 5)
- *         observacoes:
- *           type: string
- *           description: Observações adicionais
- *       example:
- *         animalId: '1'
- *         tipo: 'Vacina'
- *         descricao: 'Vacina contra aftosa'
- *         data: '2023-10-01'
- *         peso: 350
- *         frequenciaCardiaca: 70
- *         temperatura: 38.5
- *         condicaoCorporal: 3
- *         observacoes: 'Animal saudável e ativo'
+ *         required: true
+ *         description: ID do animal
+ *     responses:
+ *       200:
+ *         description: Dados de peso para gráficos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 labels:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   description: Datas das pesagens
+ *                 dados:
+ *                   type: array
+ *                   items:
+ *                     type: number
+ *                   description: Pesos registrados
  */
+router.get('/saude/:animalId/peso', obterDadosPeso);
 
 module.exports = router;
