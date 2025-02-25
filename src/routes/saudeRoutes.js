@@ -6,7 +6,7 @@ const { registrarSaude, consultarHistorico, calcularGanhoPesoMedio, obterDadosPe
  * @swagger
  * tags:
  *   name: Saúde
- *   description: Gestão da saúde dos animais
+ *   description: Gestão da saúde do animal
  */
 
 /**
