@@ -19,6 +19,7 @@
   "homepage": "https://github.com/cajango-dev/jfagro-back#readme",
   "dependencies": {
     "express": "^4.21.2",
+    "joi": "^17.13.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   }
