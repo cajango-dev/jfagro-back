@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gráfico de Peso</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Evolução do Peso do Animal</h1>
+<canvas id="pesoChart" width="400" height="200"></canvas>
+<script>
+async function carregarDados() {
+    // Substitua '1' pelo ID do animal que você deseja visualizar
+    const response = await fetch('http://localhost:3000/api/saude/1/peso');
+    const { labels, dados } = await response.json();
+
+    const ctx = document.getElementById('pesoChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+        labels: labels,
+        datasets: [{
+            label: 'Peso (kg)',
+            data: dados,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2
+        }]
+},
+    options: {
+        scales: {
+            y: {
+            beginAtZero: true
+            }
+        }
+        }
+    });
+    }
+
+    carregarDados();
+</script>
+</body>
+</html>
