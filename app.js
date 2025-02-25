@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const animalRoutes = require('./src/routes/animalRoutes');
 const saudeRoutes = require('./src/routes/saudeRoutes');
 const piqueteRoutes = require('./src/routes/piqueteRoutes'); // Importar as rotas de piquetes
@@ -14,6 +15,9 @@ app.use(express.json());
 app.use('/api', animalRoutes);
 app.use('/api', saudeRoutes);
 app.use('/api', piqueteRoutes); // Usar as rotas de piquetes
+
+// Servir arquivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Swagger
 swaggerConfig(app);
