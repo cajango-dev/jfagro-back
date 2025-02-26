@@ -1,12 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const { registrarSaude, consultarHistorico, calcularGanhoPesoMedio, obterDadosPeso } = require('../controllers/saudeController');
+const autenticar = require('../middlewares/authMiddleware');
+
+// Proteger rotas de saúde
+router.post('/saude', autenticar, registrarSaude);
+router.get('/saude/:animalId', autenticar, consultarHistorico);
 
 /**
  * @swagger
  * tags:
  *   name: Saúde
- *   description: Gestão da saúde do animal
+ *   description: Gestão da saúde dos animais
  */
 
 /**
@@ -21,9 +26,25 @@ const { registrarSaude, consultarHistorico, calcularGanhoPesoMedio, obterDadosPe
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/RegistroSaude'
+ *           example:
+ *             animalId: "1"
+ *             tipo: "Vacina"
+ *             descricao: "Vacina contra aftosa"
+ *             data: "2023-10-01"
+ *             peso: 350
+ *             frequenciaCardiaca: 70
+ *             temperatura: 38.5
+ *             condicaoCorporal: 3
+ *             observacoes: "Animal saudável e ativo"
  *     responses:
  *       201:
  *         description: Registro de saúde adicionado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RegistroSaude'
+ *       400:
+ *         description: Dados inválidos
  */
 router.post('/saude', registrarSaude);
 
@@ -49,6 +70,8 @@ router.post('/saude', registrarSaude);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/RegistroSaude'
+ *       404:
+ *         description: Animal não encontrado
  */
 router.get('/saude/:animalId', consultarHistorico);
 
