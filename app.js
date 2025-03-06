@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const connectDB = require('./src/config/db');
 const logger = require('./src/config/logger')
 const authRoutes = require('./src/routes/authRoutes');
 const animalRoutes = require('./src/routes/animalRoutes');
@@ -8,7 +9,6 @@ const piqueteRoutes = require('./src/routes/piqueteRoutes');
 const swaggerConfig = require('./src/swagger');
 
 const app = express();
-const PORT = 3000;
 
 // Middleware para JSON
 app.use(express.json());
@@ -36,8 +36,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Swagger
 swaggerConfig(app);
 
-// Iniciar servidor
+// Conectar ao banco de dados
+connectDB();
+
+// Iniciar o servidor DB
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-console.log(`Servidor rodando em http://localhost:${PORT}`);
-console.log(`Documentação Swagger em http://localhost:${PORT}/api-docs`);
+    console.log(`Servidor rodando na porta http://localhost:${PORT}`);
+    console.log(`Documentação Swagger em http://localhost:${PORT}/api-docs`);
 });
