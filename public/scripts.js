@@ -77,7 +77,7 @@ if (document.getElementById('registerForm')) {
         if (response.ok) {
         showMessage('Usuário registrado com sucesso!');
         setTimeout(() => {
-          window.location.href = 'login.html'; // Redirecionar para a tela de login
+            window.location.href = 'login.html'; // Redirecionar para a tela de login
         }, 2000);
         } else {
         showMessage(data.message || 'Erro no registro', true);
