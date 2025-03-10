@@ -36,10 +36,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Swagger
 swaggerConfig(app);
 
+console.log("Tentando conectar ao banco de dados...");
 // Conectar ao banco de dados
-connectDB();
+connectDB()
+    .then(() => {
+        console.log("Conexão ao banco de dados estabelecida com sucesso.");
+    })
+    .catch(err => {
+        console.error("Erro ao conectar ao banco de dados:", err);
+    });
 
-// Iniciar o servidor DB
+
+console.log("Iniciando o servidor...");
+// Iniciar o servidor
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta http://localhost:${PORT}`);
