@@ -1,11 +1,13 @@
-const { Pool } = require('pg');
+const mongoose = require('mongoose');
 
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'jfagro',
-    password: 'cajangoDEV',
-    port: 5432,
-});
+const connectDB = async () => {
+    try {
+        await mongoose.connect('mongodb://localhost:27017/jfagro');
+        console.log('Conectado ao MongoDB');
+    } catch (err) {
+        console.error('Erro ao conectar ao MongoDB:', err);
+        process.exit(1);
+    }
+};
 
-module.exports = pool;
+module.exports = connectDB;
