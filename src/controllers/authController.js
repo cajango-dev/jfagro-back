@@ -1,49 +1,54 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-// Simulando um "banco de dados" de usuários em memória
-const usuarios = [];
+const dbQueries = require('../config/dbQueries'); // Importando as funções de consulta ao banco de dados
 
-// Registrar um novo usuário
-const registrarUsuario = (req, res) => {
-const { nome, email, senha } = req.body;
+const registrarUsuario = async (req, res) => {
+    console.log("Iniciando o registro do usuário...");
+    const { nome, email, senha } = req.body;
 
-// Verificar se o usuário já existe
-const usuarioExistente = usuarios.find((user) => user.email === email);
-if (usuarioExistente) {
-    return res.status(400).json({ message: 'Usuário já existe' });
-}
+    // Verificar se o usuário já existe
+    const usuarioExistente = await dbQueries.buscarUsuarioPorEmail(email);
+    if (usuarioExistente) {
+        console.log("Usuário já existe:", email);
+        return res.status(400).json({ message: 'Usuário já existe' });
+    }
 
-// Criptografar a senha
-const senhaCriptografada = bcrypt.hashSync(senha, 10);
+    // Criptografar a senha
+    const senhaCriptografada = bcrypt.hashSync(senha, 10);
 
-// Salvar o usuário
-const novoUsuario = { id: usuarios.length + 1, nome, email, senha: senhaCriptografada };
-usuarios.push(novoUsuario);
+    // Salvar o usuário no banco de dados
+    await dbQueries.registrarUsuario(nome, email, senhaCriptografada);
+    console.log("Usuário registrado com sucesso:", email);
 
-res.status(201).json({ message: 'Usuário registrado com sucesso!', usuario: novoUsuario });
+    res.status(201).json({ message: 'Usuário registrado com sucesso!', usuario: { nome, email } });
 };
 
-// Login do usuário
-const login = (req, res) => {
-const { email, senha } = req.body;
 
-// Verificar se o usuário existe
-const usuario = usuarios.find((user) => user.email === email);
-if (!usuario) {
-    return res.status(400).json({ message: 'Usuário não encontrado' });
-}
+const login = async (req, res) => {
+    console.log("Iniciando o login do usuário...");
+    const { email, senha } = req.body;
 
-// Verificar a senha
-const senhaValida = bcrypt.compareSync(senha, usuario.senha);
-if (!senhaValida) {
-    return res.status(400).json({ message: 'Senha incorreta' });
-}
+    // Verificar se o usuário existe
+    const usuario = await dbQueries.buscarUsuarioPorEmail(email);
+    if (!usuario) {
+        console.log("Usuário não encontrado:", email);
+        return res.status(400).json({ message: 'Usuário não encontrado' });
+    }
 
-// Gerar token JWT
-const token = jwt.sign({ id: usuario.id, email: usuario.email }, 'secreto', { expiresIn: '1h' });
+    // Verificar a senha
+    const senhaValida = bcrypt.compareSync(senha, usuario.senha);
+    if (!senhaValida) {
+        console.log("Senha incorreta para o usuário:", email);
+        return res.status(400).json({ message: 'Senha incorreta' });
+    }
 
-res.json({ message: 'Login bem-sucedido!', token });
+    // Gerar token JWT
+    const token = jwt.sign({ id: usuario.id, email: usuario.email }, 'secreto', { expiresIn: '1h' });
+    console.log("Login bem-sucedido para o usuário:", email);
+
+    res.json({ message: 'Login bem-sucedido!', token });
 };
+
 
 module.exports = { registrarUsuario, login };
