@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Animal = require('./models/Animal'); // Supondo que você tenha um modelo de Animal
+const Animal = require('../models/Animal'); // Supondo que você tenha um modelo de Animal
+
 
 // Função para registrar uma inseminação
 const registrarInseminacao = async (animalId, dataInseminacao, responsavel) => {
@@ -53,7 +54,26 @@ const deletarInseminacao = async (animalId, inseminacaoId) => {
     }
 };
 
+const User = require('../models/User'); // Importando o modelo de usuário
+
+// Função para registrar um usuário
+const registrarUsuario = async (nome, email, senha) => {
+    const novoUsuario = new User({ nome, email, senha });
+    await novoUsuario.save();
+};
+
+// Função para buscar um usuário por email
+const buscarUsuarioPorEmail = async (email) => {
+    return await User.findOne({ email });
+};
+
 module.exports = {
+    registrarInseminacao,
+    buscarInseminacoesPorAnimal,
+    deletarInseminacao,
+    registrarUsuario, // Adicionando a função de registrar usuário
+    buscarUsuarioPorEmail, // Adicionando a função de buscar usuário
+
     registrarInseminacao,
     buscarInseminacoesPorAnimal,
     deletarInseminacao,
