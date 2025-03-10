@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JFAgro - Gráficos</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Evolução do Peso do Animal</h1>
+        <div class="filters">
+            <label for="dataInicio">Data Início:</label>
+            <input type="date" id="dataInicio">
+            <label for="dataFim">Data Fim:</label>
+            <input type="date" id="dataFim">
+            <button id="filtrar">Filtrar</button>
+        </div>
+        <button id="logout">Logout</button>
+        <canvas id="pesoChart" width="400" height="200"></canvas>
+        <p><a href="login.html">Logout</a></p>
+    </div>
+<script src="scripts.js"></script>
+</body>
+</html>
