@@ -1,31 +1,124 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registro - JFAgro</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic styles for the home bar and modal */
+        #homeBar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        #registerModal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Adjusted width for a smaller modal */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>Registro</h1>
-    <form id="registerForm">
-    <div class="form-group">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required>
+    <div id="homeBar">
+        <h1>Welcome to Our Site</h1>
+<button id="registerBtn">Open Registration</button> <!-- Updated button text -->
+
     </div>
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+
+    <div id="registerModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm" onsubmit="return handleRegister(event);">
+
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required>
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required>
-    </div>
-    <button type="submit">Registrar</button>
-    </form>
-    <p>Já tem uma conta? <a href="login.html">Faça login aqui</a>.</p>
-</div>
-<script src="scripts.js"></script>
+
+    <script src="scripts.js"></script>
+    <script>
+        // JavaScript for handling modal display
+var modal = document.getElementById("registerModal"); // Ensure modal is correctly referenced
+
+        var btn = document.getElementById("registerBtn");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+async function handleRegister(event) { // Ensure function is defined correctly
+
+            event.preventDefault(); // Prevent default form submission
+
+            const nome = document.getElementById("nome").value;
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("senha").value;
+
+            const response = await fetch('/auth/registrar', { 
+
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nome, email, senha })
+            });
+
+            if (response.ok) {
+                alert("Registro bem-sucedido! Você será redirecionado para a página de login."); 
+
+                window.location.href = 'login.html'; // Redirect to login page
+            } else {
+                const errorData = await response.json();
+                alert("Erro: " + errorData.message);
+            }
+        };
+    </script>
 </body>
 </html>
