@@ -1,0 +1,32 @@
+.landing-container {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+}
+
+.landing-header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+.landing-header nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.landing-main {
+    margin: 20px 0;
+}
+
+.landing-main section {
+    margin: 20px 0;
+}
+
+.landing-footer {
+    margin-top: 20px;
+    font-size: 0.8em;
+    color: #777;
+}

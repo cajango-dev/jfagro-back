@@ -1,12 +1,16 @@
-const express = require('express');
-const path = require('path');
-const connectDB = require('./src/config/db');
-const logger = require('./src/config/logger')
-const authRoutes = require('./src/routes/authRoutes');
-const animalRoutes = require('./src/routes/animalRoutes');
-const saudeRoutes = require('./src/routes/saudeRoutes');
-const piqueteRoutes = require('./src/routes/piqueteRoutes');
-const swaggerConfig = require('./src/swagger');
+import express from 'express';
+import path from 'path';
+import connectDB from './src/config/db.js';
+import logger from './src/config/logger.js'; // Updated import statement
+import authRoutes from './src/routes/authRoutes.js';
+import animalRoutes from './src/routes/animalRoutes.js';
+import saudeRoutes from './src/routes/saudeRoutes.js';
+import piqueteRoutes from './src/routes/piqueteRoutes.js';
+import swaggerConfig from './src/swagger.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import LandingPage from './src/components/LandingPage.tsx';
+
 
 const app = express();
 
@@ -19,9 +23,9 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Erro interno no servidor' });
 });
 
-// Redirecionar para login.html ao acessar a raiz
+// Serve the landing page
 app.get('/', (req, res) => {
-    res.redirect('/login.html');
+    res.sendFile(path.join(__dirname, 'public', 'landing.html'));
 });
 
 // Rotas
@@ -37,15 +41,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 swaggerConfig(app);
 
 console.log("Tentando conectar ao banco de dados...");
-// Conectar ao banco de dados
 connectDB()
     .then(() => {
         console.log("Conexão ao banco de dados estabelecida com sucesso.");
     })
     .catch(err => {
         console.error("Erro ao conectar ao banco de dados:", err);
+        // Do not shut down the server
     });
-
 
 console.log("Iniciando o servidor...");
 // Iniciar o servidor
