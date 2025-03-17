@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs", // Updated to commonjs for compatibility
+    "jsx": "react-jsx", // Updated to use react-jsx for newer React versions
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist" // Output compiled JS files to a "dist" folder
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
